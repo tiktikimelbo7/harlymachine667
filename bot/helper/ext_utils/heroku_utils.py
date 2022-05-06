@@ -37,7 +37,7 @@ def check_heroku(func):
     
  
  
- def fetch_heroku_git_url(api_key, app_name):
+def fetch_heroku_git_url(api_key, app_name):
     if not api_key:
         return None
     if not app_name:
