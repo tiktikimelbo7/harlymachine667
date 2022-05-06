@@ -1,3 +1,6 @@
+# Implement By https://github.com/jusidama18
+# Based on this https://github.com/DevsExpo/FridayUserbot/blob/master/plugins/updater.py
+
 import sys
 import subprocess
 import heroku3
@@ -11,8 +14,7 @@ from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import filters
 
 from bot import app, OWNER_ID, UPSTREAM_REPO, UPSTREAM_BRANCH, bot
-from bot.helper.telegram_helper.message_utils import get_text
-from bot.helper.ext_utils.heroku_utils import HEROKU_URL
+from bot.helper import get_text, HEROKU_URL
 from bot.helper.telegram_helper.bot_commands import BotCommands
 
 REPO_ = UPSTREAM_REPO
@@ -40,9 +42,10 @@ async def update_it(client, message):
         repo.create_head(UPSTREAM_BRANCH, origin.refs.master)
         repo.heads.master.set_tracking_branch(origin.refs.master)
         repo.heads.master.checkout(True)
-        if repo.active_branch.name != UPSTREAM_BRANCH:
-            return await msg_.edit(
-            f"`Seems Like You Are Using Custom Branch - {repo.active_branch.name}! Please Switch To {UPSTREAM_BRANCH} To Make This Updater Function!`")
+    if repo.active_branch.name != UPSTREAM_BRANCH:
+        return await msg_.edit(
+            f"`Seems Like You Are Using Custom Branch - {repo.active_branch.name}! Please Switch To {UPSTREAM_BRANCH} To Make This Updater Function!`"
+        )
     try:
         repo.create_remote("upstream", REPO_)
     except BaseException:
@@ -56,9 +59,9 @@ async def update_it(client, message):
             repo.git.reset("--hard", "FETCH_HEAD")
         subprocess.run(["pip3",  "install", "--no-cache-dir", "-r",  "requirements.txt"])
         await msg_.edit("`Updated Sucessfully! Give Me Some Time To Restart!`")
-        with open("./aria.conf", 'rb') as file:
+        with open("./aria.sh", 'rb') as file:
             script = file.read()
-        subprocess.call("./aria.conf", shell=True)
+        subprocess.call("./aria.sh", shell=True)
         args = [sys.executable, "-m", "bot"]
         execle(sys.executable, *args, environ)
         exit()
