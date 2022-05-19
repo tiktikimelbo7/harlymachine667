@@ -178,7 +178,6 @@ except:
 
 try:
     BOT_TOKEN = getConfig('BOT_TOKEN')
-    CHAT_NAME = getConfig('CHAT_NAME')
     parent_id = getConfig('GDRIVE_FOLDER_ID')
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
     if not DOWNLOAD_DIR.endswith("/"):
