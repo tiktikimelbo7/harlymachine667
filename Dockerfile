@@ -1,4 +1,4 @@
-FROM mirrorultroid6/mega-sdk-python:latest
+FROM mirrorultroid6/seeder45:heroku
 WORKDIR /usr/src/app
 RUN chmod 777 /usr/src/app
 
