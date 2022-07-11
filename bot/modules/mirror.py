@@ -21,7 +21,7 @@ from bot.helper.ext_utils import fs_utils, bot_utils
 from bot.helper.ext_utils.shortenurl import short_url
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException, NotSupportedExtractionArchive, DirectTorrentMagnetException
 from bot.helper.mirror_utils.download_utils.aria2_download import AriaDownloadHelper
-from bot.helper.mirror_utils.download_utils.mega_downloader import MegaDownloadHelper
+from bot.helper.mirror_utils.download_utils.mega_downloader import add_mega_download
 from bot.helper.mirror_utils.download_utils.qbit_downloader import QbitTorrent
 from bot.helper.mirror_utils.download_utils.direct_link_generator import direct_link_generator
 from bot.helper.mirror_utils.download_utils.direct_magnet_generator import direct_magnet_generator
@@ -475,8 +475,7 @@ def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False
         if link_type == "folder" and BLOCK_MEGA_FOLDER:
             sendMessage("Mega folder are blocked!", bot, update)
         else:
-            mega_dl = MegaDownloadHelper()
-            mega_dl.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)
+            Thread(target=add_mega_download, args=(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)).start()
 
     elif isQbit and (bot_utils.is_magnet(link) or os.path.exists(link)):
         qbit = QbitTorrent()
