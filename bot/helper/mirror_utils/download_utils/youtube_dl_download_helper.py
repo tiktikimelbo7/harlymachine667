@@ -59,6 +59,7 @@ class YoutubeDLHelper(DownloadHelper):
                      'continuedl': True,
                      'embedsubtitles': True,
                      'prefer_ffmpeg': True,
+                     'ffmpeg_location': '/bin/new-api',
                      'cookiefile': 'cookies.txt' }
 
     @property
